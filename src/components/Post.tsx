@@ -1,12 +1,15 @@
 import React from "react";
 import styles from "./Post.module.scss";
 
-interface PostsProps {}
+interface PostsProps {
+  read: boolean | undefined;
+  onClick: () => void;
+}
 
-export const Post = ({}: PostsProps) => (
-  <li className={styles.post}>
+export const Post = ({ read, ...props }: PostsProps) => (
+  <li className={styles.post} {...props}>
     <div className={styles.post_status}>
-      <div className={styles.post_unread}></div>
+      {!read && <div className={styles.post_unread}></div>}
     </div>
     <div className={styles.post_container}>
       <div className={styles.post_header}>
