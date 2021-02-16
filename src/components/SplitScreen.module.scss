@@ -1,0 +1,11 @@
+.splitscreen {
+  display: flex;
+
+  &_left {
+    flex: 1;
+  }
+
+  &_right {
+    flex: 1;
+  }
+}
