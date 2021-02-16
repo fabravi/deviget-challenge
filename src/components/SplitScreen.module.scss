@@ -3,6 +3,8 @@
 
   &_left {
     flex: 1;
+    height: calc(100vh - 5rem);
+    overflow-y: scroll;
   }
 
   &_right {

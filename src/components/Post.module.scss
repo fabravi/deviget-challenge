@@ -1,0 +1,28 @@
+.post {
+  border-bottom: 1px solid #cfd6db;
+  padding: 0.8rem 0.8rem 0.8rem 0;
+  display: flex;
+
+  &_container {
+    flex: 1;
+  }
+
+  &_status {
+    flex-basis: 3rem;
+  }
+
+  &_body {
+    display: flex;
+  }
+
+  &_unread {
+    background-color: cadetblue;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
