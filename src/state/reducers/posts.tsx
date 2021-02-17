@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { api } from "../../api/axios";
 import { Post } from "../../types/types";
 
 export interface PostsState {
@@ -10,46 +11,31 @@ export interface PostsState {
   };
 }
 
+interface TopPostsParams {
+  before?: string;
+  after?: string;
+  limit?: number;
+}
+
 const initialState: PostsState = {
-  list: [
-    {
-      id: "1",
-      title:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum veniam sit minus voluptatem illo distinctio nam voluptas corporis laboriosam dolores quisquam beatae provident inventore atque facere dignissimos, laudantium molestias ipsam?",
-      author: "Author 1",
-      comments: 120,
-    },
-    {
-      id: "2",
-      title:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum veniam sit minus voluptatem illo distinctio nam voluptas corporis laboriosam dolores quisquam beatae provident inventore atque facere dignissimos, laudantium molestias ipsam?",
-      author: "Author 2",
-      comments: 120,
-    },
-    {
-      id: "3",
-      title:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum veniam sit minus voluptatem illo distinctio nam voluptas corporis laboriosam dolores quisquam beatae provident inventore atque facere dignissimos, laudantium molestias ipsam?",
-      author: "Author 3",
-      comments: 120,
-    },
-    {
-      id: "4",
-      title:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum veniam sit minus voluptatem illo distinctio nam voluptas corporis laboriosam dolores quisquam beatae provident inventore atque facere dignissimos, laudantium molestias ipsam?",
-      author: "Author 3",
-      comments: 120,
-    },
-    {
-      id: "5",
-      title:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum veniam sit minus voluptatem illo distinctio nam voluptas corporis laboriosam dolores quisquam beatae provident inventore atque facere dignissimos, laudantium molestias ipsam?",
-      author: "Author 3",
-      comments: 120,
-    },
-  ],
+  list: [],
   status: {},
 };
+
+export const fetchPosts = createAsyncThunk<Post[], TopPostsParams | undefined>(
+  "posts/fetchPosts",
+  async (params = { limit: 10 }) => {
+    const response = await api.get("/top/.json", { params });
+    const posts = response.data.data.children;
+
+    return posts.map((post: any) => ({
+      id: post.data.id,
+      author: post.data.author,
+      title: post.data.title,
+      comments: post.data.num_comments,
+    }));
+  }
+);
 
 const postSlice = createSlice({
   name: "posts",
@@ -60,6 +46,14 @@ const postSlice = createSlice({
         ...state.status[action.payload],
         read: true,
       };
+    },
+  },
+  extraReducers: {
+    [fetchPosts.fulfilled.toString()]: (
+      state,
+      action: PayloadAction<Post[]>
+    ) => {
+      state.list = action.payload;
     },
   },
 });

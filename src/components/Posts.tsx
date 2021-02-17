@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchPosts,
   read,
   selectPostsList,
   selectStatusMap,
@@ -16,12 +17,17 @@ export const Posts = ({}: PostProps) => {
   const status = useSelector(selectStatusMap);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, []);
+
   return (
     <ul className={styles.posts}>
       {posts.map((item) => (
         <Post
           key={item.id}
           read={status[item.id]?.read}
+          {...item}
           onClick={() => dispatch(read(item.id))}
         />
       ))}

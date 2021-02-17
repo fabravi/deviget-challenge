@@ -1,30 +1,30 @@
 import React from "react";
 import styles from "./Post.module.scss";
-
+import { Post as PostType } from "../types/types";
 interface PostsProps {
-  read: boolean | undefined;
   onClick: () => void;
 }
 
-export const Post = ({ read, ...props }: PostsProps) => (
+export const Post = ({
+  title,
+  author,
+  comments,
+  read,
+  ...props
+}: PostsProps & PostType) => (
   <li className={styles.post} {...props}>
     <div className={styles.post_status}>
       {!read && <div className={styles.post_unread}></div>}
     </div>
     <div className={styles.post_container}>
       <div className={styles.post_header}>
-        Author <span>Entry Date</span>
+        {author} <span>Entry Date</span>
       </div>
       <div className={styles.post_body}>
-        <h3 className={styles.post_title}>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas
-          voluptatem corporis incidunt libero asperiores perspiciatis quam
-          eveniet, iusto alias cumque quasi laboriosam, error sapiente
-          cupiditate enim consequatur facilis! Consequuntur, est.
-        </h3>
+        <h3 className={styles.post_title}>{title}</h3>
         <div>Thumbnail</div>
       </div>
-      <div className={styles.post_footer}>Comments</div>
+      <div className={styles.post_footer}>{comments}</div>
     </div>
   </li>
 );
