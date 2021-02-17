@@ -11,6 +11,8 @@ export interface PostsState {
       dismiss: boolean;
     };
   };
+  after: string | null;
+  fetching: boolean;
 }
 
 interface TopPostsParams {
@@ -23,24 +25,30 @@ const initialState: PostsState = {
   list: [],
   active: null,
   status: {},
+  after: null,
+  fetching: true,
 };
 
-export const fetchPosts = createAsyncThunk<Post[], TopPostsParams | undefined>(
-  "posts/fetchPosts",
-  async (params = { limit: 10 }) => {
-    const response = await api.get("/top/.json", { params });
-    const posts = response.data.data.children;
+export const fetchPosts = createAsyncThunk<
+  { posts: Post[]; after: string },
+  TopPostsParams | undefined
+>("posts/fetchPosts", async (params = { limit: 10 }) => {
+  //TODO: Fix
+  const response = await api.get("/top/.json", { params });
+  const posts = response.data.data.children;
 
-    return posts.map((post: any) => ({
+  return {
+    posts: posts.map((post: any) => ({
       id: post.data.id,
       author: post.data.author,
       title: post.data.title,
       comments: post.data.num_comments,
       thumbnail:
         post.data.thumbnail === "self" ? undefined : post.data.thumbnail,
-    }));
-  }
-);
+    })),
+    after: response.data.data.after,
+  };
+});
 
 const postSlice = createSlice({
   name: "posts",
@@ -60,6 +68,7 @@ const postSlice = createSlice({
         ...state.status[action.payload],
         dismiss: true,
       };
+      if (action.payload === state.active) state.active = null;
     },
     dismissAll: (state) => {
       state.list.map((post) => {
@@ -68,14 +77,27 @@ const postSlice = createSlice({
           dismiss: true,
         };
       });
+      state.active = null;
     },
   },
   extraReducers: {
+    [fetchPosts.pending.toString()]: (state, action) => {
+      state.fetching = true;
+    },
     [fetchPosts.fulfilled.toString()]: (
       state,
-      action: PayloadAction<Post[]>
+      action: PayloadAction<{ posts: Post[]; after: string }>
     ) => {
-      state.list = action.payload;
+      const { posts, after } = action.payload;
+
+      if (state.after === null) {
+        state.list = posts;
+      } else {
+        state.list = [...state.list, ...posts];
+      }
+
+      state.after = after;
+      state.fetching = false;
     },
   },
 });
@@ -90,6 +112,14 @@ export const selectStatusMap = (state: { posts: PostsState }) => {
 
 export const selectActivePost = (state: { posts: PostsState }) => {
   return state.posts.active;
+};
+
+export const selectAfter = (state: { posts: PostsState }) => {
+  return state.posts.after;
+};
+
+export const selectFetching = (state: { posts: PostsState }) => {
+  return state.posts.fetching;
 };
 
 export const { read, dismiss, dismissAll, setActive } = postSlice.actions;

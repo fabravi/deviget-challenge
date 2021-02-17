@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Transition } from "react-transition-group";
 
 import styles from "./Posts.module.scss";
+import { InfiniteScroll } from "./InfiniteScroll";
 
 const duration = 300;
 
@@ -46,35 +47,37 @@ export const Posts = ({}: PostProps) => {
     <>
       {posts.length ? (
         <ul className={styles.posts}>
-          {posts.map((item) => {
-            return (
-              <Transition
-                in={!status[item.id]?.dismiss}
-                enter={false}
-                timeout={duration}
-                unmountOnExit={true}
-              >
-                {(state: "entering" | "entered" | "exiting" | "exited") => (
-                  <li
-                    style={{
-                      ...defaultStyle,
-                      ...transitionStyles[state],
-                    }}
-                  >
-                    <Post
-                      key={item.id}
-                      read={status[item.id]?.read}
-                      dismiss={onDismiss}
-                      link={(element: React.ReactNode) => (
-                        <Link to={`/${item.id}`}>{element}</Link>
-                      )}
-                      {...item}
-                    />
-                  </li>
-                )}
-              </Transition>
-            );
-          })}
+          <InfiniteScroll>
+            {posts.map((item) => {
+              return (
+                <Transition
+                  in={!status[item.id]?.dismiss}
+                  enter={false}
+                  timeout={duration}
+                  unmountOnExit={true}
+                >
+                  {(state: "entering" | "entered" | "exiting" | "exited") => (
+                    <li
+                      style={{
+                        ...defaultStyle,
+                        ...transitionStyles[state],
+                      }}
+                    >
+                      <Post
+                        key={item.id}
+                        read={status[item.id]?.read}
+                        dismiss={onDismiss}
+                        link={(element: React.ReactNode) => (
+                          <Link to={`/${item.id}`}>{element}</Link>
+                        )}
+                        {...item}
+                      />
+                    </li>
+                  )}
+                </Transition>
+              );
+            })}
+          </InfiniteScroll>
         </ul>
       ) : null}
       <div
