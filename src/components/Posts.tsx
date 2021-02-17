@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  dismiss,
+  dismissAll,
   fetchPosts,
   selectPostsList,
   selectStatusMap,
@@ -21,18 +23,36 @@ export const Posts = ({}: PostProps) => {
     dispatch(fetchPosts());
   }, []);
 
+  const onDismiss = (id: string) => {
+    dispatch(dismiss(id));
+  };
+
   return (
-    <ul className={styles.posts}>
-      {posts.map((item) => (
-        <Post
-          key={item.id}
-          read={status[item.id]?.read}
-          link={(element: React.ReactNode) => (
-            <Link to={`/${item.id}`}>{element}</Link>
-          )}
-          {...item}
-        />
-      ))}
-    </ul>
+    <>
+      {posts.length ? (
+        <ul className={styles.posts}>
+          {posts.map((item) => {
+            if (status[item.id]?.dismiss) return null;
+            return (
+              <Post
+                key={item.id}
+                read={status[item.id]?.read}
+                dismiss={onDismiss}
+                link={(element: React.ReactNode) => (
+                  <Link to={`/${item.id}`}>{element}</Link>
+                )}
+                {...item}
+              />
+            );
+          })}
+        </ul>
+      ) : null}
+      <div
+        className={styles.posts_dismissAll}
+        onClick={() => dispatch(dismissAll())}
+      >
+        Dismiss all
+      </div>
+    </>
   );
 };

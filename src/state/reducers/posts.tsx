@@ -4,9 +4,11 @@ import { Post } from "../../types/types";
 
 export interface PostsState {
   list: Post[];
+  active: string | null;
   status: {
     [key: string]: {
       read: boolean;
+      dismiss: boolean;
     };
   };
 }
@@ -19,6 +21,7 @@ interface TopPostsParams {
 
 const initialState: PostsState = {
   list: [],
+  active: null,
   status: {},
 };
 
@@ -43,11 +46,28 @@ const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
+    setActive: (state, action: PayloadAction<string>) => {
+      state.active = action.payload;
+    },
     read: (state, action: PayloadAction<string>) => {
       state.status[action.payload] = {
         ...state.status[action.payload],
         read: true,
       };
+    },
+    dismiss: (state, action: PayloadAction<string>) => {
+      state.status[action.payload] = {
+        ...state.status[action.payload],
+        dismiss: true,
+      };
+    },
+    dismissAll: (state) => {
+      state.list.map((post) => {
+        state.status[post.id] = {
+          ...state.status[post.id],
+          dismiss: true,
+        };
+      });
     },
   },
   extraReducers: {
@@ -68,6 +88,10 @@ export const selectStatusMap = (state: { posts: PostsState }) => {
   return state.posts.status;
 };
 
-export const { read } = postSlice.actions;
+export const selectActivePost = (state: { posts: PostsState }) => {
+  return state.posts.active;
+};
+
+export const { read, dismiss, dismissAll, setActive } = postSlice.actions;
 
 export default postSlice.reducer;

@@ -3,6 +3,7 @@ import styles from "./Post.module.scss";
 import { Post as PostType } from "../types/types";
 interface PostsProps {
   link: Function;
+  dismiss: (id: string) => void;
 }
 
 export const Post = ({
@@ -12,6 +13,7 @@ export const Post = ({
   thumbnail,
   read,
   link,
+  dismiss,
   ...props
 }: PostsProps & PostType) => (
   <li className={styles.post} {...props}>
@@ -26,7 +28,15 @@ export const Post = ({
         {link(<h3 className={styles.post_title}>{title}</h3>)}
         {thumbnail && <img className={styles.post_thumbnail} src={thumbnail} />}
       </div>
-      <div className={styles.post_footer}>{comments}</div>
+      <div className={styles.post_footer}>
+        {comments}
+        <button
+          className={styles.post_dismiss}
+          onClick={() => dismiss(props.id)}
+        >
+          Dismiss
+        </button>
+      </div>
     </div>
   </li>
 );
