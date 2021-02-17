@@ -9,6 +9,7 @@ export const Post = ({
   title,
   author,
   comments,
+  thumbnail,
   read,
   ...props
 }: PostsProps & PostType) => (
@@ -22,7 +23,7 @@ export const Post = ({
       </div>
       <div className={styles.post_body}>
         <h3 className={styles.post_title}>{title}</h3>
-        <div>Thumbnail</div>
+        {thumbnail && <img className={styles.post_thumbnail} src={thumbnail} />}
       </div>
       <div className={styles.post_footer}>{comments}</div>
     </div>

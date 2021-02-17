@@ -1,6 +1,6 @@
 .post {
-  border-bottom: 1px solid #cfd6db;
-  padding: 0.8rem 0.8rem 0.8rem 0;
+  margin: 0;
+  padding: 0.8rem 0.8rem 0 0;
   display: flex;
 
   &_container {
@@ -11,15 +11,41 @@
     flex-basis: 3rem;
   }
 
+  &_header {
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+    font-size: 0.9rem;
+    height: 1.5rem;
+  }
+
   &_body {
     display: flex;
   }
 
+  &_title {
+    margin: 0;
+    font-size: 1.2rem;
+    flex: 1;
+  }
+
+  &_footer {
+    border-bottom: 1px solid #cfd6db;
+    padding-bottom: 0.8rem;
+  }
+
+  &_thumbnail {
+    flex-basis: 8rem;
+  }
+
   &_unread {
-    background-color: cadetblue;
-    width: 1rem;
-    height: 1rem;
+    background-color: rgb(38, 138, 253);
+    width: 0.7rem;
+    height: 0.7rem;
     border-radius: 50%;
+    top: 1.5rem;
+    left: 0.8rem;
+    position: relative;
   }
 
   &:last-child {

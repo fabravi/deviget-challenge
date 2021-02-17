@@ -2,8 +2,11 @@
   height: 5rem;
   background: rgb(41, 41, 46);
   color: white;
+  display: flex;
+  align-items: center;
 
   h1 {
-    margin: 0;
+    margin: 0 0 0 1rem;
+    font-size: 1.2rem;
   }
 }

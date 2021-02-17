@@ -33,6 +33,8 @@ export const fetchPosts = createAsyncThunk<Post[], TopPostsParams | undefined>(
       author: post.data.author,
       title: post.data.title,
       comments: post.data.num_comments,
+      thumbnail:
+        post.data.thumbnail === "self" ? undefined : post.data.thumbnail,
     }));
   }
 );

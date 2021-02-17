@@ -3,5 +3,6 @@ export type Post = {
   title: string;
   author: string;
   comments: number;
+  thumbnail: string;
   read?: boolean;
 };
