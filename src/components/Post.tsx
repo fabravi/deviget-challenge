@@ -16,7 +16,7 @@ export const Post = ({
   dismiss,
   ...props
 }: PostsProps & PostType) => (
-  <li className={styles.post} {...props}>
+  <div className={styles.post} {...props}>
     <div className={styles.post_status}>
       {!read && <div className={styles.post_unread}></div>}
     </div>
@@ -38,5 +38,5 @@ export const Post = ({
         </button>
       </div>
     </div>
-  </li>
+  </div>
 );
