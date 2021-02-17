@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Post.module.scss";
 import { Post as PostType } from "../types/types";
 interface PostsProps {
-  onClick: () => void;
+  link: Function;
 }
 
 export const Post = ({
@@ -11,6 +11,7 @@ export const Post = ({
   comments,
   thumbnail,
   read,
+  link,
   ...props
 }: PostsProps & PostType) => (
   <li className={styles.post} {...props}>
@@ -22,7 +23,7 @@ export const Post = ({
         {author} <span>Entry Date</span>
       </div>
       <div className={styles.post_body}>
-        <h3 className={styles.post_title}>{title}</h3>
+        {link(<h3 className={styles.post_title}>{title}</h3>)}
         {thumbnail && <img className={styles.post_thumbnail} src={thumbnail} />}
       </div>
       <div className={styles.post_footer}>{comments}</div>

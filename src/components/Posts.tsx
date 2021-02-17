@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPosts,
-  read,
   selectPostsList,
   selectStatusMap,
 } from "../state/reducers/posts";
 import { Post } from "./Post";
+import { Link } from "react-router-dom";
 
 import styles from "./Posts.module.scss";
 
@@ -27,8 +27,10 @@ export const Posts = ({}: PostProps) => {
         <Post
           key={item.id}
           read={status[item.id]?.read}
+          link={(element: React.ReactNode) => (
+            <Link to={`/${item.id}`}>{element}</Link>
+          )}
           {...item}
-          onClick={() => dispatch(read(item.id))}
         />
       ))}
     </ul>
