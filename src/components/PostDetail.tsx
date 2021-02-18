@@ -1,12 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import {
-  read,
-  selectActivePost,
-  selectPostsList,
-  setActive,
-} from "../state/reducers/posts";
+import React from "react";
 import styles from "./PostDetail.module.scss";
 
 interface PostsDetailProps {

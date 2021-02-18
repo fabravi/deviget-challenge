@@ -1,12 +1,4 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  dismiss,
-  dismissAll,
-  fetchPosts,
-  selectPostsList,
-  selectStatusMap,
-} from "../state/reducers/posts";
+import React from "react";
 import { Post as PostType, PostsStatus } from "../types/types";
 import { Link } from "react-router-dom";
 import { Transition } from "react-transition-group";
@@ -80,9 +72,6 @@ export const Posts = ({
           </InfiniteScroll>
         </ul>
       ) : null}
-      <div className={styles.posts_dismissAll} onClick={onDismissAll}>
-        Dismiss all
-      </div>
     </>
   );
 };

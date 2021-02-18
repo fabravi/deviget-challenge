@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+import { FloatingButton } from "../components/FloatingButton";
 import { PostsDetail } from "../components/PostDetail";
 import { Posts } from "../components/Posts";
 import { SplitScreen } from "../components/SplitScreen";
@@ -28,7 +29,7 @@ export const PostsPage = () => {
   let post;
 
   useEffect(() => {
-    if (posts.length === 0) dispatch(fetchPosts());
+    if (initializing) dispatch(fetchPosts());
   }, []);
 
   useEffect(() => {
@@ -44,6 +45,17 @@ export const PostsPage = () => {
     dispatch(dismissAll());
   };
 
+  if (initializing) return <div>Loading</div>;
+
+  if (status[id]?.dismiss) {
+    history.push("/");
+  }
+
+  if (activeId) {
+    post = posts.find((post) => post.id === activeId);
+    if (!post) history.push("/");
+  }
+
   const postProps = {
     posts,
     status,
@@ -51,17 +63,13 @@ export const PostsPage = () => {
     onDismissAll,
   };
 
-  if (initializing) return <div>Loading</div>;
-
-  if (activeId) {
-    post = posts.find((post) => post.id === activeId);
-    if (!post) history.push("/");
-  }
-
   return (
-    <SplitScreen
-      left={<Posts {...postProps} />}
-      right={<PostsDetail post={post} />}
-    />
+    <>
+      <SplitScreen
+        left={<Posts {...postProps} />}
+        right={<PostsDetail post={post} />}
+      />
+      <FloatingButton onClick={onDismissAll}>Dismiss All</FloatingButton>
+    </>
   );
 };
