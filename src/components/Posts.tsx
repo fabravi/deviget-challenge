@@ -7,12 +7,13 @@ import {
   selectPostsList,
   selectStatusMap,
 } from "../state/reducers/posts";
-import { Post } from "./Post";
+import { Post as PostType, PostsStatus } from "../types/types";
 import { Link } from "react-router-dom";
 import { Transition } from "react-transition-group";
 
 import styles from "./Posts.module.scss";
 import { InfiniteScroll } from "./InfiniteScroll";
+import { Post } from "./Post";
 
 const duration = 300;
 
@@ -28,21 +29,20 @@ const transitionStyles = {
   exited: { opacity: 0 },
 };
 
-interface PostProps {}
+interface PostProps {
+  posts: PostType[];
+  status: PostsStatus;
+  onDismiss: (id: string) => void;
+  onDismissAll: () => void;
+  onFetchPosts?: () => void;
+}
 
-export const Posts = ({}: PostProps) => {
-  const posts = useSelector(selectPostsList);
-  const status = useSelector(selectStatusMap);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, []);
-
-  const onDismiss = (id: string) => {
-    dispatch(dismiss(id));
-  };
-
+export const Posts = ({
+  posts,
+  status,
+  onDismiss,
+  onDismissAll,
+}: PostProps) => {
   return (
     <>
       {posts.length ? (
@@ -51,6 +51,7 @@ export const Posts = ({}: PostProps) => {
             {posts.map((item) => {
               return (
                 <Transition
+                  key={item.id}
                   in={!status[item.id]?.dismiss}
                   enter={false}
                   timeout={duration}
@@ -64,9 +65,8 @@ export const Posts = ({}: PostProps) => {
                       }}
                     >
                       <Post
-                        key={item.id}
                         read={status[item.id]?.read}
-                        dismiss={onDismiss}
+                        dismiss={(id) => onDismiss(id)}
                         link={(element: React.ReactNode) => (
                           <Link to={`/${item.id}`}>{element}</Link>
                         )}
@@ -80,10 +80,7 @@ export const Posts = ({}: PostProps) => {
           </InfiniteScroll>
         </ul>
       ) : null}
-      <div
-        className={styles.posts_dismissAll}
-        onClick={() => dispatch(dismissAll())}
-      >
+      <div className={styles.posts_dismissAll} onClick={onDismissAll}>
         Dismiss all
       </div>
     </>

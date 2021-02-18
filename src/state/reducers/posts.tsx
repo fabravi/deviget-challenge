@@ -1,17 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { api } from "../../api/axios";
-import { Post } from "../../types/types";
+import { Post, PostsStatus } from "../../types/types";
 
 export interface PostsState {
   list: Post[];
   active: string | null;
-  status: {
-    [key: string]: {
-      read: boolean;
-      dismiss: boolean;
-    };
-  };
+  status: PostsStatus;
   after: string | null;
+  initializing: boolean;
   fetching: boolean;
 }
 
@@ -26,6 +22,7 @@ const initialState: PostsState = {
   active: null,
   status: {},
   after: null,
+  initializing: true,
   fetching: true,
 };
 
@@ -98,6 +95,7 @@ const postSlice = createSlice({
 
       state.after = after;
       state.fetching = false;
+      state.initializing = false;
     },
   },
 });
@@ -119,7 +117,7 @@ export const selectAfter = (state: { posts: PostsState }) => {
 };
 
 export const selectFetching = (state: { posts: PostsState }) => {
-  return state.posts.fetching;
+  return state.posts.initializing;
 };
 
 export const { read, dismiss, dismissAll, setActive } = postSlice.actions;

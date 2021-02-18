@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   read,
   selectActivePost,
@@ -9,23 +9,12 @@ import {
 } from "../state/reducers/posts";
 import styles from "./PostDetail.module.scss";
 
-interface PostsDetailProps {}
+interface PostsDetailProps {
+  post: any;
+}
 
-export const PostsDetail = ({}: PostsDetailProps) => {
-  const { id } = useParams<{ id: string }>();
-
-  let activeId = useSelector(selectActivePost);
-  let posts = useSelector(selectPostsList);
-  const dispatch = useDispatch();
-
-  const post = posts.find((post) => post.id === activeId);
-
-  useEffect(() => {
-    dispatch(read(id));
-    dispatch(setActive(id));
-  }, [id]);
-
-  if (!id || !post)
+export const PostsDetail = ({ post }: PostsDetailProps) => {
+  if (!post)
     return (
       <div className={styles.postdetail}>
         Click on a post to see its detail.

@@ -6,3 +6,10 @@ export type Post = {
   thumbnail: string;
   read?: boolean;
 };
+
+export type PostsStatus = {
+  [key: string]: {
+    read: boolean;
+    dismiss: boolean;
+  };
+};

@@ -1,10 +1,9 @@
 import React from "react";
 import "./App.scss";
 import { Header } from "./components/Header";
-import { SplitScreen } from "./components/SplitScreen";
-import { Posts } from "./components/Posts";
-import { PostsDetail } from "./components/PostDetail";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { GalleryPage } from "./pages/GalleryPage";
+import { PostsPage } from "./pages/PostsPage";
 
 function App() {
   return (
@@ -13,13 +12,13 @@ function App() {
         <Header />
         <Switch>
           <Route path="/gallery">
-            <div>gallery</div>
+            <GalleryPage />
           </Route>
           <Route path="/:id">
-            <SplitScreen left={<Posts />} right={<PostsDetail />} />
+            <PostsPage />
           </Route>
           <Route path="/">
-            <SplitScreen left={<Posts />} right={<PostsDetail />} />
+            <PostsPage />
           </Route>
         </Switch>
       </Router>
