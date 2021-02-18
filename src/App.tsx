@@ -11,7 +11,10 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          <Route path="/gallery">
+          <Route path="/gallery/:id">
+            <GalleryPage />
+          </Route>
+          <Route path="/gallery/">
             <GalleryPage />
           </Route>
           <Route path="/:id">

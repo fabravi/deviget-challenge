@@ -59,9 +59,6 @@ export const Posts = ({
                       <Post
                         read={status && status[item.id]?.read}
                         dismiss={(id) => onDismiss(id)}
-                        link={(element: React.ReactNode) => (
-                          <Link to={`/${item.id}`}>{element}</Link>
-                        )}
                         {...item}
                       />
                     </li>

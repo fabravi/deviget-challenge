@@ -21,7 +21,6 @@ export const InfiniteScroll: FC = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log("isVisible", isVisible);
     if (isVisible && !fetching)
       dispatch(
         fetchPosts({

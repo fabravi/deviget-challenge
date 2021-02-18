@@ -1,0 +1,36 @@
+.picture {
+  padding: 2rem;
+  height: calc(100vh - 5rem);
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  &_container {
+    border: 1px solid #cfd6db;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    max-width: 50%;
+    margin: auto;
+  }
+
+  &_header {
+    margin-bottom: 1rem;
+    align-self: flex-end;
+  }
+
+  &_add {
+    background: #268afd;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    outline: 0;
+    cursor: pointer;
+  }
+
+  &_img {
+    max-width: 100%;
+  }
+}

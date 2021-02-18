@@ -3,15 +3,24 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import posts from "./posts";
+import gallery from "./gallery";
 
-const persistConfig = {
+const persistConfigPosts = {
   key: "posts",
   storage,
   // blacklist: ["list"],
 };
 
-const persistedReducer = persistReducer(persistConfig, posts);
+const persistedPosts = persistReducer(persistConfigPosts, posts);
+
+const persistConfigGallery = {
+  key: "gallery",
+  storage,
+};
+
+const persistedGallery = persistReducer(persistConfigGallery, gallery);
 
 export default combineReducers({
-  posts: persistedReducer,
+  posts: persistedPosts,
+  gallery: persistedGallery,
 });

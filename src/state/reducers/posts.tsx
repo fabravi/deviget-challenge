@@ -5,7 +5,7 @@ import moment from "moment";
 
 export interface PostsState {
   list: Post[];
-  active: string | null;
+  activeId: string | null;
   status: PostsStatus;
   after: string | null;
   initializing: boolean;
@@ -20,7 +20,7 @@ interface TopPostsParams {
 
 const initialState: PostsState = {
   list: [],
-  active: null,
+  activeId: null,
   status: {},
   after: null,
   initializing: true,
@@ -67,7 +67,7 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     setActive: (state, action: PayloadAction<string>) => {
-      state.active = action.payload;
+      state.activeId = action.payload;
     },
     read: (state, action: PayloadAction<string>) => {
       state.status[action.payload] = {
@@ -80,7 +80,7 @@ const postSlice = createSlice({
         ...state.status[action.payload],
         dismiss: true,
       };
-      if (action.payload === state.active) state.active = null;
+      if (action.payload === state.activeId) state.activeId = null;
     },
     dismissAll: (state) => {
       state.list.map((post) => {
@@ -89,7 +89,7 @@ const postSlice = createSlice({
           dismiss: true,
         };
       });
-      state.active = null;
+      state.activeId = null;
     },
   },
   extraReducers: {
@@ -112,12 +112,6 @@ const postSlice = createSlice({
       state.fetching = false;
       state.initializing = false;
     },
-    [fetchPosts.rejected.toString()]: (
-      state,
-      action: PayloadAction<{ posts: Post[]; after: string }>
-    ) => {
-      console.log("ERROR", state);
-    },
   },
 });
 
@@ -130,7 +124,7 @@ export const selectStatusMap = (state: { posts: PostsState }) => {
 };
 
 export const selectActivePost = (state: { posts: PostsState }) => {
-  return state.posts.active;
+  return state.posts.activeId;
 };
 
 export const selectAfter = (state: { posts: PostsState }) => {

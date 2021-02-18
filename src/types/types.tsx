@@ -15,3 +15,8 @@ export type PostsStatus = {
     dismiss: boolean;
   };
 };
+
+export type Picture = {
+  id: string;
+  url: string;
+};

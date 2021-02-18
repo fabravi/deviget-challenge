@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { FloatingButton } from "../components/FloatingButton";
@@ -16,6 +16,7 @@ import {
   selectStatusMap,
   setActive,
 } from "../state/reducers/posts";
+import { Post } from "../types/types";
 
 export const PostsPage = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export const PostsPage = () => {
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
-  let post;
+  let [post, setPost] = useState<Post | null>(null);
 
   useEffect(() => {
     if (posts.length === 0) dispatch(fetchPosts());
@@ -36,6 +37,12 @@ export const PostsPage = () => {
     dispatch(read(id));
     dispatch(setActive(id));
   }, [id]);
+
+  useEffect(() => {
+    let post = posts.find((post) => post.id === activeId);
+    if (!post) history.push("/");
+    setPost(post || null);
+  }, [activeId]);
 
   const onDismiss = (id: string) => {
     dispatch(dismiss(id));
@@ -49,11 +56,6 @@ export const PostsPage = () => {
 
   if (status && status[id]?.dismiss) {
     history.push("/");
-  }
-
-  if (activeId) {
-    post = posts.find((post) => post.id === activeId);
-    if (!post) history.push("/");
   }
 
   const postProps = {
