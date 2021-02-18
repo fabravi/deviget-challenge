@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { api } from "../../api/axios";
 import { Post, PostsStatus } from "../../types/types";
+import moment from "moment";
 
 export interface PostsState {
   list: Post[];
@@ -51,6 +52,7 @@ export const fetchPosts = createAsyncThunk<
         id: post.data.id,
         author: post.data.author,
         title: post.data.title,
+        created: moment.unix(post.data.created_utc).fromNow(),
         comments: post.data.num_comments,
         thumbnail,
         image,

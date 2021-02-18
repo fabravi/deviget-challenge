@@ -2,6 +2,7 @@ export type Post = {
   id: string;
   title: string;
   author: string;
+  created: string;
   comments: number;
   thumbnail: string;
   read?: boolean;

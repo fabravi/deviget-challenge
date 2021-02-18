@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Post.module.scss";
 import { Post as PostType } from "../types/types";
+import { create } from "domain";
 interface PostsProps {
   link: Function;
   dismiss: (id: string) => void;
@@ -9,6 +10,7 @@ interface PostsProps {
 export const Post = ({
   title,
   author,
+  created,
   comments,
   thumbnail,
   read,
@@ -22,7 +24,7 @@ export const Post = ({
     </div>
     <div className={styles.post_container}>
       <div className={styles.post_header}>
-        {author} <span>Entry Date</span>
+        {author} <span>{created}</span>
       </div>
       <div className={styles.post_body}>
         {link(<h3 className={styles.post_title}>{title}</h3>)}
