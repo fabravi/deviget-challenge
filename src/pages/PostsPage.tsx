@@ -70,10 +70,8 @@ export const PostsPage = () => {
       <SplitScreen
         left={<Posts {...postProps} />}
         right={<PostsDetail post={post} />}
+        closePanel={!!id}
       />
-      <FloatingButton onClick={() => onDismissAll()}>
-        Dismiss All
-      </FloatingButton>
     </>
   );
 };

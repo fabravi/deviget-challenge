@@ -21,6 +21,8 @@
   }
 
   &_add {
+    display: flex;
+    align-items: center;
     background: #268afd;
     color: white;
     border: none;
@@ -28,6 +30,10 @@
     border-radius: 2rem;
     outline: 0;
     cursor: pointer;
+
+    svg {
+      margin-left: 0.5rem;
+    }
   }
 
   &_img {

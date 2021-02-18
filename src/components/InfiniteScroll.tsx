@@ -7,6 +7,8 @@ import {
   selectFetching,
   selectPostsList,
 } from "../state/reducers/posts";
+import { Spinner } from "./Spinner";
+import styles from "./InfiniteScroll.module.scss";
 
 export const InfiniteScroll: FC = ({ children }) => {
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -34,8 +36,8 @@ export const InfiniteScroll: FC = ({ children }) => {
     <>
       {children}
       {posts.length < 50 && (
-        <div ref={divRef} style={{ background: "red" }}>
-          Loading
+        <div ref={divRef} className={styles.infinitescroll}>
+          <Spinner />
         </div>
       )}
     </>

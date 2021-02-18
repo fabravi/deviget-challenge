@@ -4,10 +4,26 @@
   &_left {
     flex: 1;
     height: calc(100vh - 5rem);
+    padding-bottom: 5rem;
+    box-sizing: border-box;
     overflow-y: scroll;
+    background-color: #fbfbfb;
+    transition: transform 0.6s ease-in-out;
+
+    @media only screen and (max-width: 1024px) {
+      position: absolute;
+      width: 100%;
+
+      &_closed {
+        transform: translate(-100%);
+      }
+    }
   }
 
   &_right {
     flex: 1;
+    height: calc(100vh - 5rem);
+    box-sizing: border-box;
+    overflow-y: auto;
   }
 }

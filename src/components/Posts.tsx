@@ -6,6 +6,7 @@ import { Transition } from "react-transition-group";
 import styles from "./Posts.module.scss";
 import { InfiniteScroll } from "./InfiniteScroll";
 import { Post } from "./Post";
+import { FloatingButton } from "./FloatingButton";
 
 const duration = 300;
 
@@ -69,6 +70,9 @@ export const Posts = ({
           </InfiniteScroll>
         </ul>
       ) : null}
+      <FloatingButton onClick={() => onDismissAll()}>
+        Dismiss All
+      </FloatingButton>
     </>
   );
 };

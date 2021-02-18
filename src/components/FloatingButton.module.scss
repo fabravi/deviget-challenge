@@ -11,4 +11,10 @@
   box-shadow: 0.2rem 0.2rem 0.5rem rgba(71, 71, 71, 0.815);
   cursor: pointer;
   outline: none;
+  transition: all 0.6s;
+
+  @media only screen and (max-width: 1024px) {
+    position: fixed;
+    left: calc(50% - 3.5rem);
+  }
 }
