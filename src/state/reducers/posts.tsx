@@ -37,17 +37,23 @@ export const fetchPosts = createAsyncThunk<
 
   return {
     posts: posts.map((post: any) => {
-      const thumbnail =
-        post.data.thumbnail === "default"
-          ? post.data.preview?.images[0].resolutions[1].url.replaceAll(
-              "amp;",
-              ""
-            )
-          : post.data.thumbnail;
+      let thumbnail;
+      if (post.data.thumbnail === "default") {
+        thumbnail = post.data.preview?.images[0].resolutions[1].url.replaceAll(
+          "amp;",
+          ""
+        );
+      }
+
+      if (post.data.thumbnail !== "self") {
+        thumbnail = post.data.thumbnail;
+      }
+
       const image = post.data.preview?.images[0].source.url.replaceAll(
         "amp;",
         ""
       );
+
       return {
         id: post.data.id,
         author: post.data.author,
