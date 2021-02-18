@@ -11,18 +11,8 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          <Route path="/gallery/:id">
-            <GalleryPage />
-          </Route>
-          <Route path="/gallery/">
-            <GalleryPage />
-          </Route>
-          <Route path="/:id">
-            <PostsPage />
-          </Route>
-          <Route path="/">
-            <PostsPage />
-          </Route>
+          <Route path={["/gallery/:id", "/gallery/"]} component={GalleryPage} />
+          <Route path={["/:id", "/"]} component={PostsPage} />
         </Switch>
       </Router>
     </div>

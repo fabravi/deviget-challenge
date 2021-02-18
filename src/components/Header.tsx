@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Header.module.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 interface HeaderProps {}
 
@@ -14,21 +14,18 @@ export const Header = ({}: HeaderProps) => {
       </Link>
       <nav className={styles.header_nav}>
         <Link
-          className={
-            location.pathname !== "/gallery" ? styles.header_active : ""
-          }
           to={`/`}
+          className={
+            !location.pathname.startsWith("/gallery")
+              ? styles.header_active
+              : ""
+          }
         >
           Top Posts
         </Link>
-        <Link
-          className={
-            location.pathname === "/gallery" ? styles.header_active : ""
-          }
-          to={`/gallery`}
-        >
+        <NavLink to="/gallery" activeClassName={styles.header_active}>
           Gallery
-        </Link>
+        </NavLink>
       </nav>
     </header>
   );
