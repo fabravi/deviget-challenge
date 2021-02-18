@@ -44,7 +44,7 @@ export const Posts = ({
               return (
                 <Transition
                   key={item.id}
-                  in={!status[item.id]?.dismiss}
+                  in={status && !status[item.id]?.dismiss}
                   enter={false}
                   timeout={duration}
                   unmountOnExit={true}
@@ -57,7 +57,7 @@ export const Posts = ({
                       }}
                     >
                       <Post
-                        read={status[item.id]?.read}
+                        read={status && status[item.id]?.read}
                         dismiss={(id) => onDismiss(id)}
                         link={(element: React.ReactNode) => (
                           <Link to={`/${item.id}`}>{element}</Link>

@@ -5,6 +5,7 @@ export type Post = {
   comments: number;
   thumbnail: string;
   read?: boolean;
+  image?: string;
 };
 
 export type PostsStatus = {

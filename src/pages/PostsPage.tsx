@@ -29,7 +29,7 @@ export const PostsPage = () => {
   let post;
 
   useEffect(() => {
-    if (initializing) dispatch(fetchPosts());
+    if (posts.length === 0) dispatch(fetchPosts());
   }, []);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const PostsPage = () => {
 
   if (initializing) return <div>Loading</div>;
 
-  if (status[id]?.dismiss) {
+  if (status && status[id]?.dismiss) {
     history.push("/");
   }
 
@@ -69,7 +69,9 @@ export const PostsPage = () => {
         left={<Posts {...postProps} />}
         right={<PostsDetail post={post} />}
       />
-      <FloatingButton onClick={onDismissAll}>Dismiss All</FloatingButton>
+      <FloatingButton onClick={() => onDismissAll()}>
+        Dismiss All
+      </FloatingButton>
     </>
   );
 };

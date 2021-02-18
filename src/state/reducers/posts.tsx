@@ -35,14 +35,27 @@ export const fetchPosts = createAsyncThunk<
   const posts = response.data.data.children;
 
   return {
-    posts: posts.map((post: any) => ({
-      id: post.data.id,
-      author: post.data.author,
-      title: post.data.title,
-      comments: post.data.num_comments,
-      thumbnail:
-        post.data.thumbnail === "self" ? undefined : post.data.thumbnail,
-    })),
+    posts: posts.map((post: any) => {
+      const thumbnail =
+        post.data.thumbnail === "default"
+          ? post.data.preview?.images[0].resolutions[1].url.replaceAll(
+              "amp;",
+              ""
+            )
+          : post.data.thumbnail;
+      const image = post.data.preview?.images[0].source.url.replaceAll(
+        "amp;",
+        ""
+      );
+      return {
+        id: post.data.id,
+        author: post.data.author,
+        title: post.data.title,
+        comments: post.data.num_comments,
+        thumbnail,
+        image,
+      };
+    }),
     after: response.data.data.after,
   };
 });
@@ -96,6 +109,12 @@ const postSlice = createSlice({
       state.after = after;
       state.fetching = false;
       state.initializing = false;
+    },
+    [fetchPosts.rejected.toString()]: (
+      state,
+      action: PayloadAction<{ posts: Post[]; after: string }>
+    ) => {
+      console.log("ERROR", state);
     },
   },
 });
