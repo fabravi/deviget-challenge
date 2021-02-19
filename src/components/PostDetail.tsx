@@ -1,8 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Post } from "../types/types";
 import styles from "./PostDetail.module.scss";
 
 interface PostsDetailProps {
-  post: any;
+  post: Post | null;
 }
 
 export const PostsDetail = ({ post }: PostsDetailProps) => {
@@ -15,11 +17,24 @@ export const PostsDetail = ({ post }: PostsDetailProps) => {
 
   return (
     <div className={styles.postdetail}>
+      <div className={styles.postdetail_header}>
+        <span>{post.author}</span>
+        <span>{post.created}</span>
+      </div>
       <h2>{post.title}</h2>
-      <div>Author</div>
-      <div>Entry Date</div>
-      <div>Thumbnail</div>
-      <div>Comments</div>
+      <div></div>
+      <div className={styles.postdetail_image}>
+        {post.image ? (
+          <Link to={`/gallery/${post.id}`}>
+            <img
+              className={styles.postdetail_image}
+              src={post.image}
+              alt={post.title}
+            />
+          </Link>
+        ) : null}
+      </div>
+      <div className={styles.postdetail_footer}>{post.comments} Comments</div>
     </div>
   );
 };

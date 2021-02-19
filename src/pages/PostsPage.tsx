@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { FloatingButton } from "../components/FloatingButton";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 import { PostsDetail } from "../components/PostDetail";
 import { Posts } from "../components/Posts";
 import { SplitScreen } from "../components/SplitScreen";
@@ -10,11 +9,9 @@ import {
   dismissAll,
   fetchPosts,
   read,
-  selectActivePost,
   selectFetching,
   selectPostsList,
   selectStatusMap,
-  setActive,
 } from "../state/reducers/posts";
 import { Post } from "../types/types";
 
@@ -22,7 +19,6 @@ export const PostsPage = () => {
   const dispatch = useDispatch();
   const posts = useSelector(selectPostsList);
   const status = useSelector(selectStatusMap);
-  const activeId = useSelector(selectActivePost);
   const initializing = useSelector(selectFetching);
 
   const { id } = useParams<{ id: string }>();
@@ -35,14 +31,13 @@ export const PostsPage = () => {
 
   useEffect(() => {
     dispatch(read(id));
-    dispatch(setActive(id));
   }, [id]);
 
-  useEffect(() => {
-    let post = posts.find((post) => post.id === activeId);
+  useLayoutEffect(() => {
+    let post = posts.find((post) => post.id === id);
     if (!post) history.push("/");
     setPost(post || null);
-  }, [activeId]);
+  }, [id]);
 
   const onDismiss = (id: string) => {
     dispatch(dismiss(id));
@@ -55,7 +50,7 @@ export const PostsPage = () => {
   if (initializing) return <div>Loading</div>;
 
   if (status && status[id]?.dismiss) {
-    history.push("/");
+    return <Redirect to="/" />;
   }
 
   const postProps = {

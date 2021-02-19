@@ -5,7 +5,6 @@ import moment from "moment";
 
 export interface PostsState {
   list: Post[];
-  activeId: string | null;
   status: PostsStatus;
   after: string | null;
   initializing: boolean;
@@ -20,7 +19,6 @@ interface TopPostsParams {
 
 const initialState: PostsState = {
   list: [],
-  activeId: null,
   status: {},
   after: null,
   initializing: true,
@@ -72,9 +70,6 @@ const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    setActive: (state, action: PayloadAction<string>) => {
-      state.activeId = action.payload;
-    },
     read: (state, action: PayloadAction<string>) => {
       state.status[action.payload] = {
         ...state.status[action.payload],
@@ -86,7 +81,6 @@ const postSlice = createSlice({
         ...state.status[action.payload],
         dismiss: true,
       };
-      if (action.payload === state.activeId) state.activeId = null;
     },
     dismissAll: (state) => {
       state.list.map((post) => {
@@ -95,7 +89,6 @@ const postSlice = createSlice({
           dismiss: true,
         };
       });
-      state.activeId = null;
     },
   },
   extraReducers: {
@@ -129,10 +122,6 @@ export const selectStatusMap = (state: { posts: PostsState }) => {
   return state.posts.status;
 };
 
-export const selectActivePost = (state: { posts: PostsState }) => {
-  return state.posts.activeId;
-};
-
 export const selectAfter = (state: { posts: PostsState }) => {
   return state.posts.after;
 };
@@ -141,6 +130,6 @@ export const selectFetching = (state: { posts: PostsState }) => {
   return state.posts.initializing;
 };
 
-export const { read, dismiss, dismissAll, setActive } = postSlice.actions;
+export const { read, dismiss, dismissAll } = postSlice.actions;
 
 export default postSlice.reducer;

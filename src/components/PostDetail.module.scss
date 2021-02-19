@@ -4,4 +4,30 @@
   border: 1px solid #cfd6db;
   padding: 2rem;
   box-shadow: 1rem 1rem #29292e;
+
+  &_header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_image {
+    max-width: 100%;
+  }
+
+  &_footer {
+    margin-top: 0.5rem;
+  }
+}
+
+.nopost {
+  display: flex;
+  justify-content: center;
+
+  &_center {
+    align-self: center;
+
+    span {
+      font-size: 3rem;
+    }
+  }
 }
