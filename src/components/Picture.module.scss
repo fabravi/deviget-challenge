@@ -25,9 +25,7 @@
   &_header {
     margin-bottom: 1rem;
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    flex-flow: row-reverse;
+    align-self: flex-end;
   }
 
   &_action {
@@ -35,7 +33,7 @@
     align-items: center;
     background: #268afd;
     color: white;
-    border: none;
+    border: 1px solid transparent;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
     outline: 0;
@@ -43,6 +41,7 @@
 
     svg {
       margin: 0 0.5rem;
+      font-size: 1rem;
     }
 
     &_add {
@@ -55,8 +54,8 @@
     }
 
     &_remove {
-      background: #fd2643;
-      color: white;
+      background: none;
+      color: #e45266;
 
       svg {
         margin-left: 0;
@@ -66,7 +65,12 @@
     &_disabled {
       background: white;
       color: gray;
+      border: 1px solid #cfd6db;
       pointer-events: none;
+
+      svg {
+        color: #268afd;
+      }
     }
   }
 

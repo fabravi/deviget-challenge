@@ -29,18 +29,6 @@ export const Picture = ({
     <div className={styles.picture}>
       <div className={styles.picture_container}>
         <div className={styles.picture_header}>
-          <button
-            className={[
-              styles.picture_action,
-              styles.picture_action_add,
-              addedToGallery ? styles.picture_action_disabled : "",
-            ].join(" ")}
-            onClick={handleAdd}
-          >
-            {addedToGallery
-              ? ["Saved", <CheckCircle />]
-              : ["Save", <CheckCircleOutline />]}
-          </button>
           {addedToGallery && (
             <button
               className={[
@@ -49,9 +37,27 @@ export const Picture = ({
               ].join(" ")}
               onClick={handleRemove}
             >
-              <Delete /> Remove
+              Remove
             </button>
           )}
+          <button
+            className={[
+              styles.picture_action,
+              styles.picture_action_add,
+              addedToGallery ? styles.picture_action_disabled : "",
+            ].join(" ")}
+            onClick={handleAdd}
+          >
+            {addedToGallery ? (
+              <>
+                Saved <CheckCircle />
+              </>
+            ) : (
+              <>
+                Save, <CheckCircleOutline />
+              </>
+            )}
+          </button>
         </div>
         <img className={styles.picture_img} src={url} />
       </div>

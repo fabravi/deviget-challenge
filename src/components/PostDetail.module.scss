@@ -22,6 +22,13 @@
     color: gray;
     margin: 2rem;
     display: none;
+    display: flex;
+    align-content: center;
+
+    span {
+      font-size: 2rem;
+      text-decoration: none;
+    }
 
     @media only screen and (max-width: 1024px) {
       display: block;

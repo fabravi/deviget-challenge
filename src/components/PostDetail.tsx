@@ -15,7 +15,7 @@ export const PostsDetail = ({ post }: PostsDetailProps) => {
   return (
     <>
       <Link className={styles.postdetail_back} to="/">
-        Back
+        ← Back
       </Link>
       <div className={styles.postdetail}>
         <div className={styles.postdetail_header}>

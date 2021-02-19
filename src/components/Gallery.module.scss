@@ -10,8 +10,16 @@
     list-style: none;
     display: grid;
     grid-gap: 2rem;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     position: relative;
+
+    @media only screen and (min-width: 769px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    @media only screen and (min-width: 1025px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
   }
 
   &_item {
@@ -34,7 +42,7 @@
     display: none;
     border: none;
     background: white;
-    color: #268afd;
+    color: #29292e;
     border-radius: 50%;
     height: 2.5rem;
     width: 2.5rem;
@@ -42,6 +50,6 @@
     top: 1rem;
     right: 1rem;
     cursor: pointer;
-    box-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.315);
+    box-shadow: 0.2rem 0.2rem #29292e;
   }
 }
