@@ -72,6 +72,7 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     read: (state, action: PayloadAction<string>) => {
+      debugger;
       state.status[action.payload] = {
         ...state.status[action.payload],
         read: true,
