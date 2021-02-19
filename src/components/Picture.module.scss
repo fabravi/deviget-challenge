@@ -17,10 +17,13 @@
 
   &_header {
     margin-bottom: 1rem;
-    align-self: flex-end;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-flow: row-reverse;
   }
 
-  &_add {
+  &_action {
     display: flex;
     align-items: center;
     background: #268afd;
@@ -32,7 +35,31 @@
     cursor: pointer;
 
     svg {
-      margin-left: 0.5rem;
+      margin: 0 0.5rem;
+    }
+
+    &_add {
+      background: #268afd;
+      color: white;
+
+      svg {
+        margin-right: 0;
+      }
+    }
+
+    &_remove {
+      background: #fd2643;
+      color: white;
+
+      svg {
+        margin-left: 0;
+      }
+    }
+
+    &_disabled {
+      background: white;
+      color: gray;
+      pointer-events: none;
     }
   }
 

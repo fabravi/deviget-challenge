@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, useParams } from "react-router-dom";
 import { Gallery } from "../components/Gallery";
@@ -14,7 +14,7 @@ export const GalleryPage = () => {
   const { id } = useParams<{ id: string }>();
   const [url, setUrl] = useState<string>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let post = posts.find((post) => post.id === id);
     setUrl(post?.image || "");
   }, [id]);
@@ -27,7 +27,16 @@ export const GalleryPage = () => {
     dispatch(remove(id));
   };
 
-  if (id) return <Picture url={url} addToGallery={addToGallery} />;
+  if (id)
+    return (
+      <Picture
+        pictures={pictures}
+        id={id}
+        url={url}
+        addToGallery={addToGallery}
+        removeFromGallery={removeFromGallery}
+      />
+    );
 
   return <Gallery pictures={pictures} removeFromGallery={removeFromGallery} />;
 };
