@@ -26,6 +26,7 @@ const transitionStyles = {
 interface PostProps {
   posts: PostType[];
   status: PostsStatus;
+  allDismissed: boolean;
   onDismiss: (id: string) => void;
   onDismissAll: () => void;
   onFetchPosts?: () => void;
@@ -34,62 +35,65 @@ interface PostProps {
 export const Posts = ({
   posts,
   status,
+  allDismissed,
   onDismiss,
   onDismissAll,
 }: PostProps) => {
-  const [allDismissed, setAllDismissed] = useState(false);
-
   const handleDismissAllClick = () => {
     onDismissAll();
-    if (posts.length === 50) setAllDismissed(true);
   };
 
   return (
     <>
-      {allDismissed ? (
-        <div className={styles.posts_fullscreen}>
-          <Empty
-            emoji={"🤙"}
-            text={"All posts have been dismissed. Check again later."}
-          />
-        </div>
-      ) : posts.length ? (
-        <>
-          <ul className={styles.posts}>
-            <InfiniteScroll>
-              {posts.map((item) => {
-                return (
-                  <Transition
-                    key={item.id}
-                    in={status && !status[item.id]?.dismiss}
-                    enter={false}
-                    timeout={duration}
-                    unmountOnExit={true}
+      <ul className={styles.posts}>
+        <InfiniteScroll allDismissed={allDismissed}>
+          {posts.map((item) => {
+            return (
+              <Transition
+                key={item.id}
+                in={status && !status[item.id]?.dismiss}
+                enter={false}
+                timeout={duration}
+                unmountOnExit={true}
+              >
+                {(state: "entering" | "entered" | "exiting" | "exited") => (
+                  <li
+                    style={{
+                      ...defaultStyle,
+                      ...transitionStyles[state],
+                    }}
                   >
-                    {(state: "entering" | "entered" | "exiting" | "exited") => (
-                      <li
-                        style={{
-                          ...defaultStyle,
-                          ...transitionStyles[state],
-                        }}
-                      >
-                        <Post
-                          read={status && status[item.id]?.read}
-                          dismiss={(id) => onDismiss(id)}
-                          {...item}
-                        />
-                      </li>
-                    )}
-                  </Transition>
-                );
-              })}
-            </InfiniteScroll>
-          </ul>
-          <FloatingButton onClick={handleDismissAllClick}>
-            Dismiss All
-          </FloatingButton>
-        </>
-      ) : null}
+                    <Post
+                      read={status && status[item.id]?.read}
+                      dismiss={(id) => onDismiss(id)}
+                      {...item}
+                    />
+                  </li>
+                )}
+              </Transition>
+            );
+          })}
+        </InfiniteScroll>
+      </ul>
+      {!allDismissed ? (
+        <FloatingButton onClick={handleDismissAllClick}>
+          Dismiss All
+        </FloatingButton>
+      ) : (
+        <Transition
+          in={allDismissed}
+          enter={false}
+          timeout={duration}
+          unmountOnExit={true}
+        >
+          <div className={styles.posts_fullscreen}>
+            <Empty
+              emoji={"🤙"}
+              text={"All posts have been dismissed. Check again later."}
+            />
+          </div>
+        </Transition>
+      )}
     </>
   );
 };

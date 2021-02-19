@@ -10,7 +10,8 @@ import {
 import { Spinner } from "./Spinner";
 import styles from "./InfiniteScroll.module.scss";
 
-export const InfiniteScroll: FC = ({ children }) => {
+// TODO: make this reusable
+export const InfiniteScroll = ({ allDismissed, children }: any) => {
   const divRef = useRef<HTMLDivElement | null>(null);
   const after = useSelector(selectAfter);
   const posts = useSelector(selectPostsList);
@@ -35,7 +36,7 @@ export const InfiniteScroll: FC = ({ children }) => {
   return (
     <>
       {children}
-      {posts.length < 50 && (
+      {!allDismissed && posts.length < 50 && (
         <div ref={divRef} className={styles.infinitescroll}>
           <Spinner />
         </div>

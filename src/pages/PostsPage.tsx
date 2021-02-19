@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory, useParams } from "react-router-dom";
 import { Empty } from "../components/Empty";
@@ -10,17 +10,20 @@ import {
   dismissAll,
   fetchPosts,
   read,
+  selectAllDismissed,
   selectFetching,
   selectPostsList,
   selectStatusMap,
 } from "../state/reducers/posts";
 import { Post } from "../types/types";
+import { allPostsDismissed } from "../utils/utils";
 
 export const PostsPage = () => {
   const dispatch = useDispatch();
   const posts = useSelector(selectPostsList);
   const status = useSelector(selectStatusMap);
   const initializing = useSelector(selectFetching);
+  const allDismissed = useSelector(selectAllDismissed);
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -28,13 +31,14 @@ export const PostsPage = () => {
 
   useEffect(() => {
     if (posts.length === 0) dispatch(fetchPosts());
+    if (allPostsDismissed(posts, status)) onDismissAll();
   }, []);
 
   useEffect(() => {
     dispatch(read(id));
   }, [id]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let post = posts.find((post) => post.id === id);
     if (!post) history.push("/");
     setPost(post || null);
@@ -58,6 +62,7 @@ export const PostsPage = () => {
   const postProps = {
     posts,
     status,
+    allDismissed,
     onDismiss,
     onDismissAll,
   };

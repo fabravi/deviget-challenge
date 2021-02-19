@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { api } from "../../api/axios";
 import { Post, PostsStatus } from "../../types/types";
 import moment from "moment";
+import { allPostsDismissed } from "../../utils/utils";
 
 export interface PostsState {
   list: Post[];
@@ -9,6 +10,7 @@ export interface PostsState {
   after: string | null;
   initializing: boolean;
   fetching: boolean;
+  allDismissed: boolean;
 }
 
 interface TopPostsParams {
@@ -23,6 +25,7 @@ const initialState: PostsState = {
   after: null,
   initializing: true,
   fetching: true,
+  allDismissed: false,
 };
 
 export const fetchPosts = createAsyncThunk<
@@ -90,6 +93,7 @@ const postSlice = createSlice({
           dismiss: true,
         };
       });
+      state.allDismissed = true;
     },
   },
   extraReducers: {
@@ -102,6 +106,9 @@ const postSlice = createSlice({
     ) => {
       const { posts, after } = action.payload;
 
+      const newList = [...state.list, ...posts];
+      state.allDismissed = allPostsDismissed(newList, state.status);
+
       if (state.after === null) {
         state.list = posts;
       } else {
@@ -111,6 +118,8 @@ const postSlice = createSlice({
       state.after = after;
       state.fetching = false;
       state.initializing = false;
+
+      window.localStorage.setItem("lastUpdate", moment(new Date()).toString());
     },
   },
 });
@@ -129,6 +138,10 @@ export const selectAfter = (state: { posts: PostsState }) => {
 
 export const selectFetching = (state: { posts: PostsState }) => {
   return state.posts.initializing;
+};
+
+export const selectAllDismissed = (state: { posts: PostsState }) => {
+  return state.posts.allDismissed;
 };
 
 export const { read, dismiss, dismissAll } = postSlice.actions;
