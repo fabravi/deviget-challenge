@@ -6,6 +6,8 @@ import posts from "./posts";
 import gallery from "./gallery";
 import moment from "moment";
 
+const TIME_TO_REFRESH_IN_SECONDS = 60;
+
 const blacklist = ["allDismissed"];
 const lastUpdate = window.localStorage.getItem("lastUpdate");
 
@@ -16,7 +18,7 @@ if (lastUpdate) {
   var duration = moment.duration(now.diff(lastUpdateDate));
   var secondsAgo = duration.asSeconds();
 
-  if (secondsAgo > 6) {
+  if (secondsAgo > TIME_TO_REFRESH_IN_SECONDS) {
     blacklist.push("list");
   }
 }

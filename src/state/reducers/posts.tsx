@@ -28,11 +28,11 @@ const initialState: PostsState = {
   allDismissed: false,
 };
 
+//TODO: Fix Param type and default value
 export const fetchPosts = createAsyncThunk<
   { posts: Post[]; after: string },
   TopPostsParams | undefined
 >("posts/fetchPosts", async (params = { limit: 10 }) => {
-  //TODO: Fix
   const response = await api.get("/top/.json", { params });
   const posts = response.data.data.children;
 
