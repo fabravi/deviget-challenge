@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory, useParams } from "react-router-dom";
+import { Empty } from "../components/Empty";
 import { PostsDetail } from "../components/PostDetail";
 import { Posts } from "../components/Posts";
 import { SplitScreen } from "../components/SplitScreen";
@@ -47,7 +48,8 @@ export const PostsPage = () => {
     dispatch(dismissAll());
   };
 
-  if (initializing) return <div>Loading</div>;
+  if (initializing)
+    return <Empty emoji={"💆"} text={"Relax while this loads..."} />;
 
   if (status && status[id]?.dismiss) {
     return <Redirect to="/" />;

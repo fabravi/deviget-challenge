@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Post } from "../types/types";
+import { Empty } from "./Empty";
 import styles from "./PostDetail.module.scss";
 
 interface PostsDetailProps {
@@ -9,11 +10,7 @@ interface PostsDetailProps {
 
 export const PostsDetail = ({ post }: PostsDetailProps) => {
   if (!post)
-    return (
-      <div className={styles.postdetail}>
-        Click on a post to see its detail.
-      </div>
-    );
+    return <Empty emoji={"🧑‍💻"} text={"Go ahead and tap on something"} />;
 
   return (
     <div className={styles.postdetail}>

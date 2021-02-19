@@ -1,7 +1,8 @@
-import { CheckCircle, Delete } from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Picture } from "../types/types";
+import { Empty } from "./Empty";
 import styles from "./Gallery.module.scss";
 
 export const Gallery = ({
@@ -13,9 +14,9 @@ export const Gallery = ({
 }) => {
   return (
     <div className={styles.gallery}>
-      <ul className={styles.gallery_items}>
-        {pictures.length ? (
-          pictures?.map((picture: any) => (
+      {pictures.length ? (
+        <ul className={styles.gallery_items}>
+          {pictures?.map((picture: Picture) => (
             <li key={picture.id} className={styles.gallery_item}>
               <button
                 className={styles.gallery_remove}
@@ -27,15 +28,11 @@ export const Gallery = ({
                 <img className={styles.gallery_img} src={picture.url} />
               </Link>
             </li>
-          ))
-        ) : (
-          <div className={styles.gallery_empty}>
-            <span>🤷‍♂️</span>
-            <br />
-            There's nothing here yet.
-          </div>
-        )}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <Empty emoji={"🤷‍♂️"} text={"There's nothing here yet."} />
+      )}
     </div>
   );
 };

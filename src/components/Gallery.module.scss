@@ -41,14 +41,4 @@
     cursor: pointer;
     box-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.315);
   }
-
-  &_empty {
-    text-align: center;
-    grid-column-start: 2;
-    grid-column-end: span 2;
-
-    span {
-      font-size: 3rem;
-    }
-  }
 }
