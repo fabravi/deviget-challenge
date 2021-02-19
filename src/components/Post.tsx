@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Post.module.scss";
 import { Post as PostType } from "../types/types";
 import { Link } from "react-router-dom";
+import { ChatBubble } from "@material-ui/icons";
 interface PostsProps {
   dismiss: (id: string) => void;
 }
@@ -43,7 +44,9 @@ export const Post = ({
           {img}
         </div>
         <div className={styles.post_footer}>
-          {comments} Comments
+          <span>
+            <ChatBubble /> {comments} Comments
+          </span>
           <button
             className={styles.post_dismiss}
             onClick={() => dismiss(props.id)}

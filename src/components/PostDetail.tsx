@@ -10,7 +10,7 @@ interface PostsDetailProps {
 
 export const PostsDetail = ({ post }: PostsDetailProps) => {
   if (!post)
-    return <Empty emoji={"🧑‍💻"} text={"Go ahead and tap on something"} />;
+    return <Empty emoji={"🧑‍💻"} text={"Go ahead and tap on something."} />;
 
   return (
     <>

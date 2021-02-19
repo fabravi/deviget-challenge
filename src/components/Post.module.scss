@@ -39,6 +39,17 @@
     border-bottom: 1px solid #cfd6db;
     padding-bottom: 0.8rem;
     margin-top: 0.3rem;
+    display: flex;
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+
+    svg {
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+    }
   }
 
   &_thumbnail {
@@ -58,13 +69,19 @@
   }
 
   &_dismiss {
-    background: #b9c6cf;
-    border: none;
+    opacity: 0.5;
+    background: none;
+    border: 1px solid gray;
     outline: none;
     padding: 0.3rem 1rem;
     margin-left: 1rem;
     border-radius: 2rem;
     cursor: pointer;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &:last-child {
