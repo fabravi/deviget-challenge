@@ -22,7 +22,6 @@
     color: gray;
     margin: 2rem;
     display: none;
-    display: flex;
     align-content: center;
 
     span {
@@ -31,7 +30,7 @@
     }
 
     @media only screen and (max-width: 1024px) {
-      display: block;
+      display: flex;
     }
   }
 }
