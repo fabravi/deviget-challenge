@@ -17,17 +17,14 @@
   &_footer {
     margin-top: 0.5rem;
   }
-}
 
-.nopost {
-  display: flex;
-  justify-content: center;
+  &_back {
+    color: gray;
+    margin: 2rem;
+    display: none;
 
-  &_center {
-    align-self: center;
-
-    span {
-      font-size: 3rem;
+    @media only screen and (max-width: 1024px) {
+      display: block;
     }
   }
 }
