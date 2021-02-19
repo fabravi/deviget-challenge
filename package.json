@@ -1,6 +1,10 @@
 {
   "name": "deviget-challenge",
   "version": "0.1.0",
+  "engines": {
+    "node": "15.x",
+    "npm": "7.x"
+  },
   "private": true,
   "dependencies": {
     "@material-ui/icons": "^4.11.2",
